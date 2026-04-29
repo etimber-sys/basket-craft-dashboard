@@ -1,13 +1,9 @@
-import os
 from datetime import date, timedelta
 
 import altair as alt
 import pandas as pd
 import snowflake.connector
 import streamlit as st
-from dotenv import load_dotenv
-
-load_dotenv()
 
 st.set_page_config(page_title="BasketCraft Dashboard", layout="wide")
 st.title("BasketCraft Dashboard")
@@ -15,14 +11,15 @@ st.title("BasketCraft Dashboard")
 
 @st.cache_resource
 def get_connection():
+    s = st.secrets["snowflake"]
     return snowflake.connector.connect(
-        account=os.getenv("SNOWFLAKE_ACCOUNT"),
-        user=os.getenv("SNOWFLAKE_USER"),
-        password=os.getenv("SNOWFLAKE_PASSWORD"),
-        role=os.getenv("SNOWFLAKE_ROLE"),
-        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
-        database=os.getenv("SNOWFLAKE_DATABASE"),
-        schema=os.getenv("SNOWFLAKE_SCHEMA"),
+        account=s["account"],
+        user=s["user"],
+        password=s["password"],
+        role=s["role"],
+        warehouse=s["warehouse"],
+        database=s["database"],
+        schema=s["schema"],
     )
 
 
